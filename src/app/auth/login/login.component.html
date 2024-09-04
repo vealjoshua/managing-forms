@@ -1,4 +1,4 @@
-<form #form="ngForm" (ngSubmit)="onSubmit(form)">
+<form [formGroup]="form" (ngSubmit)="onSubmit()">
   <h2>Login</h2>
 
   <div class="control-row">
@@ -8,10 +8,7 @@
         id="email"
         type="email"
         name="email"
-        required
-        ngModel
-        email
-        #email="ngModel"
+        [formControl]="form.controls.email"
       />
     </div>
 
@@ -21,19 +18,19 @@
         id="password"
         type="password"
         name="password"
-        required
-        minlength="6"
-        ngModel
-        #password="ngModel"
+        formControlName="password"
       />
     </div>
 
     <button class="button">Login</button>
   </div>
 
-  @if (email.invalid && email.touched && email.dirty) {
-  <p class="control-error">Invalid email address entered.</p>
-  } @if (password.invalid && password.touched && password.dirty) {
-  <p class="control-error">Invalid password address entered.</p>
+  @if (emailIsInvalid) {
+  <p class="control-error">Please enter a valid email address.</p>
+  } @if (passwordIsInvalid) {
+  <p class="control-error">
+    Please enter a valid password (at least 6 characters long and contain a
+    question mark).
+  </p>
   }
 </form>
